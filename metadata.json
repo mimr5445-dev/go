@@ -1,0 +1,6 @@
+{
+  "name": "aiTrends 2D Studio - Story & Shots Director",
+  "description": "Interactive visual director, shots.json architect, live canvas renderer, and timeline editor for aitrends-2d-studio.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
