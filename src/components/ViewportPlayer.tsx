@@ -253,14 +253,14 @@ export const ViewportPlayer: React.FC<ViewportPlayerProps> = ({
 
         {/* عرض النص المنطوق أثناء المشهد */}
         {activeShot?.line && (
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 max-w-xl text-center px-4 py-1.5 bg-black/80 backdrop-blur-sm rounded-lg border border-white/10 text-white text-xs md:text-sm font-medium pointer-events-none shadow-lg">
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-max max-w-[calc(100%-1.5rem)] text-center px-3 sm:px-4 py-1.5 bg-black/80 backdrop-blur-sm rounded-lg border border-white/10 text-white text-xs md:text-sm font-medium pointer-events-none shadow-lg">
             {activeShot.line}
           </div>
         )}
       </div>
 
       {/* شريط التحكم السفلي */}
-      <div className="px-4 py-3 bg-slate-950 border-t border-slate-800/80 flex flex-col gap-2">
+      <div className="px-3 sm:px-4 py-3 bg-slate-950 border-t border-slate-800/80 flex flex-col gap-2 min-w-0">
         {/* شريط التمرير الزمني */}
         <div className="flex items-center gap-3">
           <span className="text-[11px] font-mono text-slate-400 w-12 text-right" dir="ltr">

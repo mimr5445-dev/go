@@ -109,8 +109,8 @@ export const ScriptToBeatsModal: React.FC<ScriptToBeatsModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
-      <div className="bg-slate-900 border border-slate-800 rounded-xl sm:rounded-2xl w-full max-w-2xl max-h-[94vh] sm:max-h-[90vh] shadow-2xl flex flex-col overflow-hidden my-auto">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-start sm:items-center justify-center p-2 sm:p-4 overflow-y-auto overflow-x-hidden overscroll-contain">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl sm:rounded-2xl w-full max-w-2xl dialog-shell shadow-2xl flex flex-col overflow-hidden my-auto">
         {/* Modal Header */}
         <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-800 flex items-center justify-between sticky top-0 bg-slate-900/95 backdrop-blur z-20">
           <div className="flex items-center gap-2 min-w-0">
@@ -127,7 +127,7 @@ export const ScriptToBeatsModal: React.FC<ScriptToBeatsModalProps> = ({
         </div>
 
         {/* Modal Body */}
-        <div className="p-3.5 sm:p-6 space-y-3.5 sm:space-y-4 text-xs text-slate-300 flex-1 overflow-y-auto overflow-x-hidden">
+        <div className="p-3.5 sm:p-6 space-y-3.5 sm:space-y-4 text-xs text-slate-300 flex-1 min-h-0 overflow-y-auto overflow-x-hidden overscroll-contain">
           <div>
             <label className="block text-slate-400 font-medium mb-1">عنوان المشروع</label>
             <input
@@ -203,7 +203,7 @@ export const ScriptToBeatsModal: React.FC<ScriptToBeatsModalProps> = ({
         </div>
 
         {/* Modal Footer */}
-        <div className="px-4 sm:px-6 py-3 border-t border-slate-800 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-3 sticky bottom-0 bg-slate-900/95 backdrop-blur z-20">
+        <div className="px-4 sm:px-6 py-3 border-t border-slate-800 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-3 shrink-0 bg-slate-900/95 backdrop-blur z-20 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
           <button
             type="button"
             onClick={onClose}

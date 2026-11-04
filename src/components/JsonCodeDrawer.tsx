@@ -133,8 +133,8 @@ registerShot('${config.shots[0]?.id || 's001'}', {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
-      <div className="bg-slate-900 border border-slate-800 rounded-xl sm:rounded-2xl w-full max-w-3xl max-h-[94vh] sm:max-h-[90vh] overflow-hidden shadow-2xl flex flex-col my-auto">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-start sm:items-center justify-center p-2 sm:p-4 overflow-y-auto overflow-x-hidden overscroll-contain">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl sm:rounded-2xl w-full max-w-3xl dialog-shell overflow-hidden shadow-2xl flex flex-col my-auto">
         {/* Drawer Header */}
         <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900 sticky top-0 z-20">
           <div className="flex items-center gap-2 min-w-0">
@@ -151,10 +151,10 @@ registerShot('${config.shots[0]?.id || 's001'}', {
         </div>
 
         {/* Tab Buttons */}
-        <div className="flex items-center gap-2 px-3 sm:px-6 pt-2.5 sm:pt-3 border-b border-slate-800/80 bg-slate-950 overflow-x-auto text-xs" dir="ltr">
+        <div className="flex flex-wrap lg:flex-nowrap items-center gap-1 sm:gap-2 px-3 sm:px-6 pt-2.5 sm:pt-3 border-b border-slate-800/80 bg-slate-950 overflow-x-auto text-xs shrink-0" dir="ltr">
           <button
             onClick={() => setActiveTab('shots.json')}
-            className={`px-3 py-2 border-b-2 font-mono font-medium transition-colors whitespace-nowrap ${
+            className={`px-3 py-2 border-b-2 font-mono font-medium transition-colors max-w-full whitespace-normal sm:whitespace-nowrap text-center sm:text-start ${
               activeTab === 'shots.json'
                 ? 'border-amber-400 text-amber-300'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -164,7 +164,7 @@ registerShot('${config.shots[0]?.id || 's001'}', {
           </button>
           <button
             onClick={() => setActiveTab('bible.md')}
-            className={`px-3 py-2 border-b-2 font-mono font-medium transition-colors whitespace-nowrap ${
+            className={`px-3 py-2 border-b-2 font-mono font-medium transition-colors max-w-full whitespace-normal sm:whitespace-nowrap text-center sm:text-start ${
               activeTab === 'bible.md'
                 ? 'border-amber-400 text-amber-300'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -174,7 +174,7 @@ registerShot('${config.shots[0]?.id || 's001'}', {
           </button>
           <button
             onClick={() => setActiveTab('cast.js')}
-            className={`px-3 py-2 border-b-2 font-mono font-medium transition-colors whitespace-nowrap ${
+            className={`px-3 py-2 border-b-2 font-mono font-medium transition-colors max-w-full whitespace-normal sm:whitespace-nowrap text-center sm:text-start ${
               activeTab === 'cast.js'
                 ? 'border-amber-400 text-amber-300'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -184,7 +184,7 @@ registerShot('${config.shots[0]?.id || 's001'}', {
           </button>
           <button
             onClick={() => setActiveTab('config.json')}
-            className={`px-3 py-2 border-b-2 font-mono font-medium transition-colors whitespace-nowrap ${
+            className={`px-3 py-2 border-b-2 font-mono font-medium transition-colors max-w-full whitespace-normal sm:whitespace-nowrap text-center sm:text-start ${
               activeTab === 'config.json'
                 ? 'border-amber-400 text-amber-300'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -194,7 +194,7 @@ registerShot('${config.shots[0]?.id || 's001'}', {
           </button>
           <button
             onClick={() => setActiveTab('shot_example.js')}
-            className={`px-3 py-2 border-b-2 font-mono font-medium transition-colors whitespace-nowrap ${
+            className={`px-3 py-2 border-b-2 font-mono font-medium transition-colors max-w-full whitespace-normal sm:whitespace-nowrap text-center sm:text-start ${
               activeTab === 'shot_example.js'
                 ? 'border-amber-400 text-amber-300'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -205,12 +205,12 @@ registerShot('${config.shots[0]?.id || 's001'}', {
         </div>
 
         {/* Code Content */}
-        <div className="p-3.5 sm:p-6 flex-1 overflow-y-auto overflow-x-auto bg-slate-950 font-mono text-xs text-slate-300 select-all" dir="ltr">
+        <div className="p-3.5 sm:p-6 flex-1 min-h-0 overflow-y-auto overflow-x-auto overscroll-contain bg-slate-950 font-mono text-xs text-slate-300 select-all" dir="ltr">
           <pre className="whitespace-pre-wrap leading-relaxed">{getCurrentContent()}</pre>
         </div>
 
         {/* Drawer Footer Actions */}
-        <div className="px-4 sm:px-6 py-3 border-t border-slate-800 bg-slate-900 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
+        <div className="px-4 sm:px-6 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] border-t border-slate-800 bg-slate-900 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 shrink-0">
           <span className="text-[11px] sm:text-xs text-slate-400">
             يمكنك نسخ هذه الملفات مباشرة إلى <code className="text-amber-400 font-mono" dir="ltr">aitrends-2d-studio/projects/&lt;slug&gt;/</code>
           </span>

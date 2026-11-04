@@ -8,6 +8,10 @@
   --font-serif-display: 'Playfair Display', serif;
   --font-mono: 'JetBrains Mono', monospace;
   --font-sans: 'Cairo', 'Alexandria', 'Plus Jakarta Sans', sans-serif;
+
+  /* Small-phone breakpoint (used by the mobile navigation / compact labels).
+     Tailwind has no `xs` breakpoint by default, so `xs:*` utilities were ignored. */
+  --breakpoint-xs: 30rem;
 }
 
 /* Custom scrollbars for timeline and editor */
@@ -26,8 +30,60 @@
   background: rgba(148, 163, 184, 0.6);
 }
 
-html, body {
-  max-width: 100vw;
+/*
+ * Mobile layout baseline
+ * - Layout width always equals the device width (no 100vw, which overshoots
+ *   the visible area when a scrollbar is present).
+ * - No page-level horizontal scrolling: wide content must scroll inside its
+ *   own container (timeline track, code viewer).
+ */
+html,
+body {
+  width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
+  overscroll-behavior-x: none;
   position: relative;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* Long words never blow out a mobile layout (kept off table cells so columns stay readable). */
+h1, h2, h3, h4, p, label, a {
+  overflow-wrap: break-word;
+}
+
+/* Native form controls should always shrink with their container. */
+input,
+select,
+textarea {
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* Media never exceeds its container. */
+img,
+video,
+canvas {
+  max-width: 100%;
+}
+
+/*
+ * Dialog shell (all modals).
+ * max-height always respects the *visible* viewport on phones; the vh value is a
+ * fallback for browsers without dvh support (iOS < 15.4, older Android Chrome).
+ */
+.dialog-shell {
+  max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
+}
+
+@supports not (height: 100dvh) {
+  .dialog-shell {
+    max-height: calc(100vh - 2rem);
+  }
 }

@@ -89,14 +89,19 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
+      className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-start sm:items-center justify-center p-2 sm:p-4 overflow-y-auto overflow-x-hidden overscroll-contain"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg max-h-[92vh] sm:max-h-[88vh] shadow-2xl flex flex-col overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-150">
+      {/*
+        Mobile: full available width (minus a small safe margin), height capped to the
+        real visible viewport (dvh) and the body scrolls vertically only.
+        ≥ sm: the original centred dialog is preserved.
+      */}
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg dialog-shell shadow-2xl flex flex-col overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-150">
         {/* Modal Header */}
-        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-slate-800 flex items-center justify-between sticky top-0 bg-slate-900/95 backdrop-blur z-20 shrink-0">
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-slate-800 flex items-center justify-between gap-2 bg-slate-900/95 backdrop-blur z-20 shrink-0">
           <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
             <div className="w-8 h-8 rounded-lg bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
               <Volume2 className="w-4 h-4" />
@@ -119,8 +124,8 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({
           </button>
         </div>
 
-        {/* Modal Body - Vertically Stacked & Fully Responsive */}
-        <div className="p-4 sm:p-6 space-y-4 sm:space-y-5 text-xs text-slate-300 flex-1 overflow-y-auto overflow-x-hidden">
+        {/* Modal Body - Vertically Stacked & Fully Responsive (scrolls on one axis only) */}
+        <div className="p-3.5 sm:p-6 space-y-4 sm:space-y-5 text-xs text-slate-300 flex-1 min-h-0 overflow-y-auto overflow-x-hidden overscroll-contain">
           {/* الحقل 1: اختيار اللقطة المستهدفة */}
           <div className="space-y-1.5">
             <label className="block text-slate-300 font-semibold text-xs">
@@ -150,11 +155,11 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({
 
             {/* تفاصيل اللقطة المختارة */}
             {currentShot && (
-              <div className="bg-slate-950/70 border border-slate-800/80 rounded-lg p-2.5 flex items-center justify-between text-[11px] text-slate-400">
-                <span className="truncate max-w-[220px]">
+              <div className="bg-slate-950/70 border border-slate-800/80 rounded-lg p-2.5 flex items-center justify-between gap-2 text-[11px] text-slate-400 min-w-0">
+                <span className="truncate flex-1 min-w-0">
                   {currentShot.line ? `"${currentShot.line}"` : currentShot.scene}
                 </span>
-                <span className="font-mono text-amber-400 font-semibold shrink-0" dir="ltr">
+                <span className="font-mono text-amber-400 font-semibold shrink-0 whitespace-nowrap" dir="ltr">
                   مدة: {shotDuration.toFixed(2)}s
                 </span>
               </div>
@@ -163,14 +168,14 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({
 
           {/* الحقل 2: نوع المؤثر الصوتي واستماعه الفوري */}
           <div className="space-y-2">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <label className="block text-slate-300 font-semibold text-xs">
                 نوع المؤثر الصوتي (SFX Effect):
               </label>
               <button
                 type="button"
                 onClick={() => handleAudition(selectedSFX, gainDb)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                className={`flex items-center justify-center gap-1.5 px-3 py-2 sm:py-1.5 rounded-lg text-xs font-semibold transition-all shrink-0 w-full sm:w-auto ${
                   isPlaying
                     ? 'bg-cyan-500 text-slate-950 scale-95 shadow-md'
                     : 'bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30'
@@ -225,12 +230,12 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({
           </div>
 
           {/* الحقل 3: توقيت بدء الصوت داخل اللقطة (Timing / Offset at) */}
-          <div className="space-y-2 bg-slate-950/70 border border-slate-800/80 rounded-xl p-3">
-            <div className="flex items-center justify-between text-xs">
+          <div className="space-y-2 bg-slate-950/70 border border-slate-800/80 rounded-xl p-3 min-w-0">
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between text-xs">
               <label className="text-slate-300 font-semibold">
                 توقيت بدء الصوت (بالثانية من بداية اللقطة):
               </label>
-              <div className="flex items-center gap-1 font-mono text-amber-400 font-bold" dir="ltr">
+              <div className="flex items-center gap-1 font-mono text-amber-400 font-bold shrink-0" dir="ltr">
                 <span>{offsetSec.toFixed(2)}s</span>
                 <span className="text-slate-500">/ {shotDuration.toFixed(2)}s</span>
               </div>
@@ -243,23 +248,23 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({
               step="0.05"
               value={Math.min(offsetSec, shotDuration)}
               onChange={(e) => setOffsetSec(parseFloat(e.target.value) || 0)}
-              className="w-full accent-cyan-400 cursor-pointer h-2 bg-slate-800 rounded-lg appearance-none"
+              className="w-full min-w-0 accent-cyan-400 cursor-pointer h-2 bg-slate-800 rounded-lg appearance-none"
             />
 
-            <div className="flex items-center justify-between text-[10px] text-slate-500 font-mono" dir="ltr">
-              <span>0.00s (بداية اللقطة)</span>
-              <span>{(shotDuration / 2).toFixed(2)}s</span>
-              <span>{shotDuration.toFixed(2)}s (نهاية اللقطة)</span>
+            <div className="flex items-center justify-between gap-1 text-[10px] text-slate-500 font-mono" dir="ltr">
+              <span className="truncate">0.00s (بداية اللقطة)</span>
+              <span className="hidden sm:inline shrink-0">{(shotDuration / 2).toFixed(2)}s</span>
+              <span className="truncate text-right">{shotDuration.toFixed(2)}s (نهاية اللقطة)</span>
             </div>
           </div>
 
           {/* الحقل 4: مستوى الصوت والكسب (Gain in dB) */}
-          <div className="space-y-2 bg-slate-950/70 border border-slate-800/80 rounded-xl p-3">
-            <div className="flex items-center justify-between text-xs">
+          <div className="space-y-2 bg-slate-950/70 border border-slate-800/80 rounded-xl p-3 min-w-0">
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between text-xs">
               <label className="text-slate-300 font-semibold">
                 مستوى الصوت (الكسب بالديسيبل - Gain dB):
               </label>
-              <span className="font-mono text-cyan-400 font-bold" dir="ltr">
+              <span className="font-mono text-cyan-400 font-bold shrink-0" dir="ltr">
                 {gainDb} dB
               </span>
             </div>
@@ -271,32 +276,35 @@ export const AddAudioModal: React.FC<AddAudioModalProps> = ({
               step="1"
               value={gainDb}
               onChange={(e) => setGainDb(parseInt(e.target.value, 10) || -10)}
-              className="w-full accent-cyan-400 cursor-pointer h-2 bg-slate-800 rounded-lg appearance-none"
+              className="w-full min-w-0 accent-cyan-400 cursor-pointer h-2 bg-slate-800 rounded-lg appearance-none"
             />
 
-            <div className="flex items-center justify-between text-[10px] text-slate-500 font-mono" dir="ltr">
-              <span>-24 dB (خافت)</span>
-              <span>-12 dB (متوازن)</span>
-              <span>0 dB (مرتفع)</span>
+            <div className="flex items-center justify-between gap-1 text-[10px] text-slate-500 font-mono" dir="ltr">
+              <span className="truncate">-24 dB (خافت)</span>
+              <span className="hidden sm:inline shrink-0">-12 dB (متوازن)</span>
+              <span className="truncate text-right">0 dB (مرتفع)</span>
             </div>
           </div>
         </div>
 
-        {/* Modal Footer - Fixed & Always Accessible on Mobile */}
-        <div className="sticky bottom-0 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 p-3.5 sm:p-4 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2.5 z-20 shrink-0">
+        {/*
+          Modal Footer - pinned to the bottom of the dialog so the action buttons are
+          always reachable (the body above scrolls independently on small screens).
+        */}
+        <div className="bg-slate-900/95 backdrop-blur-md border-t border-slate-800 p-3 sm:p-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2.5 z-20 shrink-0">
           <button
             type="button"
             onClick={onClose}
-            className="w-full sm:w-auto px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium rounded-xl text-xs transition-colors text-center"
+            className="w-full sm:w-auto px-4 py-3 sm:py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium rounded-xl text-xs transition-colors text-center"
           >
             إلغاء
           </button>
           <button
             type="button"
             onClick={handleConfirm}
-            className="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 text-slate-950 font-bold rounded-xl text-xs transition-all shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-5 py-3 sm:py-2.5 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 text-slate-950 font-bold rounded-xl text-xs transition-all shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2"
           >
-            <Check className="w-4 h-4 stroke-[2.5]" />
+            <Check className="w-4 h-4 stroke-[2.5] shrink-0" />
             <span>تأكيد وإضافة المقطع الصوتي</span>
           </button>
         </div>

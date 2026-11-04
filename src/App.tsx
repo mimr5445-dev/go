@@ -164,16 +164,16 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans w-full max-w-full overflow-x-hidden">
+    <div className="min-h-screen min-h-dvh bg-slate-950 text-slate-100 flex flex-col font-sans w-full max-w-full overflow-x-hidden">
       {/* Top Bar Contract: Zone 1 (Brand) - Zone 2 (Nav Links) - Zone 3 (1 Primary Action) */}
-      <header className="flex items-center justify-between gap-3 px-3 sm:px-6 py-2.5 sm:py-3.5 border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-40">
+      <header className="flex items-center justify-between gap-2 sm:gap-3 px-3 sm:px-6 py-2.5 sm:py-3.5 border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-40 w-full max-w-full min-w-0">
         {/* Zone 1: Brand wordmark */}
-        <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center text-slate-950 shadow-md">
+        <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+          <div className="w-8 h-8 shrink-0 rounded-lg bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center text-slate-950 shadow-md">
             <Film className="w-4 h-4" />
           </div>
-          <div className="flex flex-col">
-            <span className="text-xs sm:text-sm font-bold tracking-tight text-slate-100 whitespace-nowrap">
+          <div className="flex flex-col min-w-0">
+            <span className="text-xs sm:text-sm font-bold tracking-tight text-slate-100 truncate">
               aiTrends 2D Studio
             </span>
             <span className="text-[10px] text-amber-400 font-medium hidden xs:inline">مخرج المشاهد والخط الزمني</span>
@@ -220,16 +220,18 @@ export default function App() {
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={() => setIsCodeDrawerOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold text-xs rounded-lg transition-colors shadow-sm whitespace-nowrap"
+            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold text-xs rounded-lg transition-colors shadow-sm whitespace-nowrap"
+            title="تصدير ملفات المشروع و shots.json"
           >
-            <Code2 className="w-3.5 h-3.5" />
-            <span className="hidden xs:inline">تصدير</span> shots.json
+            <Code2 className="w-3.5 h-3.5 shrink-0" />
+            <span className="hidden xs:inline">تصدير</span>
+            <span>shots.json</span>
           </button>
         </div>
       </header>
 
       {/* Mobile Responsive Navigation Bar (Allows mobile users to easily switch tabs) */}
-      <nav className="grid grid-cols-2 xs:grid-cols-4 gap-1.5 p-2 border-b border-slate-800/80 bg-slate-950/90 text-xs font-medium md:hidden max-w-full">
+      <nav className="grid grid-cols-2 xs:grid-cols-4 gap-1.5 p-2 border-b border-slate-800/80 bg-slate-950/90 text-xs font-medium md:hidden w-full max-w-full">
         <button
           onClick={() => setActiveTab('director')}
           className={`px-2 py-1.5 rounded-lg text-center truncate transition-colors ${
@@ -273,9 +275,9 @@ export default function App() {
       </nav>
 
       {/* Main Container */}
-      <main className="flex-1 max-w-[1440px] w-full mx-auto p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-5 max-w-full overflow-x-hidden">
+      <main className="flex-1 w-full max-w-[1440px] mx-auto p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-5 min-w-0 overflow-x-hidden">
         {/* Sub-header Context Bar with Project Switcher & Tools */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-3 bg-slate-900/60 p-2.5 sm:p-3 rounded-xl border border-slate-800/80">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-3 bg-slate-900/60 p-2.5 sm:p-3 rounded-xl border border-slate-800/80 min-w-0">
           <div className="flex items-center gap-2 min-w-0">
             <span className="text-xs text-slate-400 font-medium shrink-0">المشروع:</span>
             <select
@@ -288,7 +290,7 @@ export default function App() {
                   setSelectedShotId('s001');
                 }
               }}
-              className="bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-lg px-2.5 py-1.5 font-semibold focus:outline-none focus:border-amber-500 flex-1 sm:flex-none min-w-0 truncate"
+              className="bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-lg px-2.5 py-1.5 font-semibold focus:outline-none focus:border-amber-500 flex-1 sm:flex-none w-full max-w-full min-w-0 truncate"
             >
               <option value="What If Your Reaction Time Was 10x Faster?">
                 سرعة رد الفعل (14 لقطة - المشروع المرجعي)
@@ -299,29 +301,29 @@ export default function App() {
             </select>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-stretch sm:items-center gap-2 min-w-0">
             {/* زر إضافة مقطع صوتي مخصص يفتح نافذة إضافة المقطع الصوتي */}
             <button
               onClick={() => setIsAddAudioModalOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-cyan-950 to-cyan-900/80 hover:from-cyan-900 hover:to-cyan-800 text-cyan-300 rounded-lg text-xs font-semibold transition-all border border-cyan-500/40 shadow-sm"
+              className="col-span-2 sm:col-span-1 flex items-center justify-center gap-1.5 px-3 py-2 sm:py-1.5 bg-gradient-to-r from-cyan-950 to-cyan-900/80 hover:from-cyan-900 hover:to-cyan-800 text-cyan-300 rounded-lg text-xs font-semibold transition-all border border-cyan-500/40 shadow-sm"
               title="فتح نافذة إضافة مقطع صوتي إلى المشهد"
             >
-              <Volume2 className="w-3.5 h-3.5 text-cyan-400" />
+              <Volume2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
               <span>إضافة مقطع صوتي</span>
             </button>
             <button
               onClick={() => setIsScriptModalOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold transition-colors border border-slate-700/50"
+              className="col-span-1 flex items-center justify-center gap-1.5 px-3 py-2 sm:py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold transition-colors border border-slate-700/50 text-center leading-tight"
             >
-              <Wand2 className="w-3.5 h-3.5 text-amber-400" />
-              تحويل النص إلى لقطات (Beats)
+              <Wand2 className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+              <span className="leading-tight">تحويل النص إلى لقطات</span>
             </button>
             <button
               onClick={handleAddShotAtEnd}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold transition-colors border border-slate-700/50"
+              className="col-span-1 flex items-center justify-center gap-1.5 px-3 py-2 sm:py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold transition-colors border border-slate-700/50 text-center"
             >
-              <Plus className="w-3.5 h-3.5 text-emerald-400" />
-              إضافة لقطة
+              <Plus className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span className="leading-tight">إضافة لقطة</span>
             </button>
           </div>
         </div>
@@ -370,7 +372,76 @@ export default function App() {
                 </span>
               </div>
 
-              <div className="overflow-x-auto max-w-full">
+              {/* Mobile: compact shot cards (never wider than the screen) */}
+              <div className="sm:hidden space-y-2">
+                {shotsConfig.shots.map((s, idx) => {
+                  const dur = s.end - s.start;
+                  const isSelected = selectedShotId === s.id;
+                  const nextShot = shotsConfig.shots[idx + 1];
+                  const isDiscontinuous = nextShot && Math.abs(s.end - nextShot.start) > 0.01;
+
+                  return (
+                    <div
+                      key={s.id}
+                      onClick={() => {
+                        setSelectedShotId(s.id);
+                        setCurrentGlobalTime(s.start);
+                      }}
+                      className={`rounded-lg border p-2.5 cursor-pointer transition-colors ${
+                        isSelected
+                          ? 'border-amber-500/50 bg-amber-500/10'
+                          : isDiscontinuous
+                          ? 'border-rose-500/30 bg-rose-500/10'
+                          : 'border-slate-800 bg-slate-950/60'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-mono font-bold text-amber-400 text-xs" dir="ltr">{s.id}</span>
+                        <span className="font-mono text-[11px] text-slate-400" dir="ltr">
+                          {s.start.toFixed(2)}s → {s.end.toFixed(2)}s
+                          <span className="text-slate-500"> ({dur.toFixed(2)}s)</span>
+                        </span>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setEditingShot(s);
+                          }}
+                          className="px-2.5 py-1 text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded text-[11px] transition-colors shrink-0"
+                        >
+                          تعديل
+                        </button>
+                      </div>
+
+                      <div className="mt-1.5 font-sans">
+                        <p className="text-xs font-medium text-slate-100 leading-snug">{s.scene}</p>
+                        {s.line && (
+                          <p className="text-[11px] text-slate-400 leading-snug mt-0.5 truncate">"{s.line}"</p>
+                        )}
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-1.5 mt-2 text-[10px] font-mono">
+                        <span className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 uppercase" dir="ltr">
+                          {s.in?.type || 'cut'}
+                        </span>
+                        <span className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300" dir="ltr">
+                          {s.bars || 'wide'}
+                        </span>
+                        {s.sfx && s.sfx.length > 0 ? (
+                          <span className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-300 min-w-0">
+                            <Volume2 className="w-3 h-3 shrink-0" />
+                            <span className="truncate" dir="ltr">{s.sfx.map((c) => c.name).join(', ')}</span>
+                          </span>
+                        ) : (
+                          <span className="text-slate-600">— SFX</span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Desktop / tablet: the original data table (unchanged) */}
+              <div className="hidden sm:block overflow-x-auto max-w-full">
                 <table className="w-full text-right text-xs font-mono min-w-[620px]">
                   <thead>
                     <tr className="border-b border-slate-800 text-slate-400 text-[11px]">
@@ -411,11 +482,11 @@ export default function App() {
                           <td className="py-2.5 px-3 text-slate-400" dir="ltr">{dur.toFixed(2)}s</td>
                           <td className="py-2.5 px-3 uppercase text-slate-400">{s.in?.type || 'cut'}</td>
                           <td className="py-2.5 px-3 text-slate-400">{s.bars || 'wide'}</td>
-                          <td className="py-2.5 px-3 text-cyan-300">
+                          <td className="py-2.5 px-3 text-cyan-300 max-w-[140px]">
                             {s.sfx && s.sfx.length > 0 ? (
-                              <span className="flex items-center gap-1">
-                                <Volume2 className="w-3 h-3" />
-                                <span dir="ltr">{s.sfx.map((c) => c.name).join(', ')}</span>
+                              <span className="flex items-center gap-1 min-w-0">
+                                <Volume2 className="w-3 h-3 shrink-0" />
+                                <span className="truncate" dir="ltr">{s.sfx.map((c) => c.name).join(', ')}</span>
                               </span>
                             ) : (
                               <span className="text-slate-600">—</span>
@@ -528,10 +599,10 @@ export default function App() {
         {/* Tab 3: Sound & 36 SFX Library */}
         {activeTab === 'sound' && (
           <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Volume2 className="w-5 h-5 text-cyan-400" />
-                <h3 className="font-semibold text-slate-100 text-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-2">
+              <div className="flex items-center gap-2 min-w-0">
+                <Volume2 className="w-5 h-5 text-cyan-400 shrink-0" />
+                <h3 className="font-semibold text-slate-100 text-sm leading-tight">
                   مكتبة المؤثرات الصوتية التخليقية (audio/sfx.py)
                 </h3>
               </div>

@@ -64,7 +64,7 @@ export const TimelineTrack: React.FC<TimelineTrackProps> = ({
       </div>
 
       {/* Main Shots Horizontal Track */}
-      <div className="relative w-full max-w-full bg-slate-950 border border-slate-800 rounded-lg p-1.5 overflow-x-auto min-h-[90px] select-none" dir="ltr">
+      <div className="relative w-full max-w-full bg-slate-950 border border-slate-800 rounded-lg p-1.5 overflow-x-auto overflow-y-hidden overscroll-x-contain min-h-[90px] select-none" dir="ltr">
         {/* Playhead Vertical Line */}
         <div
           className="absolute top-0 bottom-0 w-0.5 bg-amber-400 z-30 pointer-events-none shadow-[0_0_8px_rgba(251,191,36,0.8)]"
