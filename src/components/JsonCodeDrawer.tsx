@@ -133,24 +133,25 @@ registerShot('${config.shots[0]?.id || 's001'}', {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden shadow-2xl flex flex-col">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl sm:rounded-2xl w-full max-w-3xl max-h-[94vh] sm:max-h-[90vh] overflow-hidden shadow-2xl flex flex-col my-auto">
         {/* Drawer Header */}
-        <div className="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900 sticky top-0 z-10">
-          <div className="flex items-center gap-2">
-            <Code2 className="w-5 h-5 text-amber-400" />
-            <h2 className="text-base font-semibold text-slate-100">تصدير ملفات المشروع وإعداداته (Studio Exports)</h2>
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900 sticky top-0 z-20">
+          <div className="flex items-center gap-2 min-w-0">
+            <Code2 className="w-5 h-5 text-amber-400 shrink-0" />
+            <h2 className="text-sm sm:text-base font-semibold text-slate-100 truncate">تصدير ملفات المشروع وإعداداته (Studio Exports)</h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-800 rounded-lg transition-colors"
+            className="p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-800 rounded-lg transition-colors shrink-0"
+            title="إغلاق"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tab Buttons */}
-        <div className="flex items-center gap-2 px-6 pt-3 border-b border-slate-800/80 bg-slate-950 overflow-x-auto text-xs" dir="ltr">
+        <div className="flex items-center gap-2 px-3 sm:px-6 pt-2.5 sm:pt-3 border-b border-slate-800/80 bg-slate-950 overflow-x-auto text-xs" dir="ltr">
           <button
             onClick={() => setActiveTab('shots.json')}
             className={`px-3 py-2 border-b-2 font-mono font-medium transition-colors whitespace-nowrap ${
@@ -204,26 +205,26 @@ registerShot('${config.shots[0]?.id || 's001'}', {
         </div>
 
         {/* Code Content */}
-        <div className="p-6 flex-1 overflow-y-auto bg-slate-950 font-mono text-xs text-slate-300 select-all" dir="ltr">
+        <div className="p-3.5 sm:p-6 flex-1 overflow-y-auto overflow-x-auto bg-slate-950 font-mono text-xs text-slate-300 select-all" dir="ltr">
           <pre className="whitespace-pre-wrap leading-relaxed">{getCurrentContent()}</pre>
         </div>
 
         {/* Drawer Footer Actions */}
-        <div className="px-6 py-4 border-t border-slate-800 bg-slate-900 flex items-center justify-between">
-          <span className="text-xs text-slate-400">
+        <div className="px-4 sm:px-6 py-3 border-t border-slate-800 bg-slate-900 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
+          <span className="text-[11px] sm:text-xs text-slate-400">
             يمكنك نسخ هذه الملفات مباشرة إلى <code className="text-amber-400 font-mono" dir="ltr">aitrends-2d-studio/projects/&lt;slug&gt;/</code>
           </span>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs rounded-lg transition-colors"
+              className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs rounded-lg transition-colors"
             >
               {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
               {copied ? 'تم النسخ بنجاح!' : 'نسخ الكود'}
             </button>
             <button
               onClick={handleDownload}
-              className="flex items-center gap-1.5 px-3 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold text-xs rounded-lg transition-colors shadow-sm"
+              className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold text-xs rounded-lg transition-colors shadow-sm"
             >
               <Download className="w-4 h-4" /> تحميل الملف
             </button>
@@ -233,3 +234,4 @@ registerShot('${config.shots[0]?.id || 's001'}', {
     </div>
   );
 };
+

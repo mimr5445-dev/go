@@ -176,32 +176,32 @@ export const ViewportPlayer: React.FC<ViewportPlayerProps> = ({
   };
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden flex flex-col">
+    <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden flex flex-col max-w-full">
       {/* شريط رأس المشغل */}
-      <div className="px-4 py-3 border-b border-slate-800/80 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <span className="font-mono font-bold text-amber-400 text-sm">
+      <div className="px-3 sm:px-4 py-2.5 sm:py-3 border-b border-slate-800/80 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-4">
+        <div className="flex items-center justify-between sm:justify-start gap-2 min-w-0">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <span className="font-mono font-bold text-amber-400 text-xs sm:text-sm bg-amber-500/10 px-1.5 sm:px-2 py-0.5 rounded border border-amber-500/20 shrink-0">
               {activeShot ? activeShot.id.toUpperCase() : 's001'}
             </span>
-            <span className="text-slate-400 text-xs truncate max-w-xs md:max-w-md">
+            <span className="text-slate-300 text-xs truncate max-w-[200px] sm:max-w-xs md:max-w-md">
               {activeShot?.scene || 'معاينة المشهد'}
             </span>
           </div>
           {activeShot?.kind === '3d' && (
-            <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
-              مدار ثلاثي الأبعاد 3D
+            <span className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30 shrink-0">
+              مدار 3D
             </span>
           )}
         </div>
 
         {/* أدوات النسبة والنمط البصري */}
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center justify-between sm:justify-end gap-2">
           {/* تبديل الأبعاد 16:9 / 9:16 */}
-          <div className="flex items-center bg-slate-950 p-0.5 rounded-lg border border-slate-800 text-xs">
+          <div className="flex items-center bg-slate-950 p-0.5 rounded-lg border border-slate-800 text-xs shrink-0">
             <button
               onClick={() => onAspectChange('16:9')}
-              className={`flex items-center gap-1 px-2.5 py-1 rounded-md transition-colors ${
+              className={`flex items-center gap-1 px-2 py-1 rounded-md transition-colors ${
                 aspect === '16:9'
                   ? 'bg-slate-800 text-slate-100 font-semibold'
                   : 'text-slate-400 hover:text-slate-200'
@@ -213,7 +213,7 @@ export const ViewportPlayer: React.FC<ViewportPlayerProps> = ({
             </button>
             <button
               onClick={() => onAspectChange('9:16')}
-              className={`flex items-center gap-1 px-2.5 py-1 rounded-md transition-colors ${
+              className={`flex items-center gap-1 px-2 py-1 rounded-md transition-colors ${
                 aspect === '9:16'
                   ? 'bg-slate-800 text-slate-100 font-semibold'
                   : 'text-slate-400 hover:text-slate-200'
@@ -229,7 +229,7 @@ export const ViewportPlayer: React.FC<ViewportPlayerProps> = ({
           <select
             value={styleId}
             onChange={(e) => onStyleChange(e.target.value as VisualStyleId)}
-            className="bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-amber-500"
+            className="bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-amber-500 flex-1 sm:flex-none min-w-0 max-w-full truncate"
           >
             <option value="dusk">الغسق السينمائي (Cinematic Dusk)</option>
             <option value="midnight">أزرق منتصف الليل (Midnight Blue)</option>
@@ -241,13 +241,13 @@ export const ViewportPlayer: React.FC<ViewportPlayerProps> = ({
       </div>
 
       {/* مسرح الكانفاس التفاعلي */}
-      <div className="relative bg-black flex items-center justify-center p-2 min-h-[360px] md:min-h-[440px] overflow-hidden select-none">
+      <div className="relative bg-black flex items-center justify-center p-2 min-h-[220px] sm:min-h-[320px] md:min-h-[440px] overflow-hidden select-none">
         <canvas
           ref={canvasRef}
           width={aspect === '16:9' ? 960 : 540}
           height={aspect === '16:9' ? 540 : 960}
-          className={`shadow-2xl border border-slate-800/60 object-contain rounded ${
-            aspect === '16:9' ? 'w-full max-w-[800px] aspect-[16/9]' : 'h-[440px] aspect-[9/16]'
+          className={`shadow-2xl border border-slate-800/60 object-contain rounded max-w-full ${
+            aspect === '16:9' ? 'w-full max-w-[800px] aspect-[16/9]' : 'h-[320px] sm:h-[440px] aspect-[9/16]'
           }`}
         />
 
@@ -286,8 +286,8 @@ export const ViewportPlayer: React.FC<ViewportPlayerProps> = ({
         </div>
 
         {/* أزرار التشغيل والتحكم */}
-        <div className="flex items-center justify-between pt-1">
-          <div className="flex items-center gap-1.5">
+        <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
+          <div className="flex items-center gap-1">
             <button
               onClick={() => stepFrame(false)}
               className="p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-800 rounded-lg transition-colors"
@@ -324,7 +324,7 @@ export const ViewportPlayer: React.FC<ViewportPlayerProps> = ({
           </div>
 
           {/* تفاصيل اللقطة والانتقال */}
-          <div className="hidden sm:flex items-center gap-3 text-xs text-slate-400 font-mono" dir="ltr">
+          <div className="hidden lg:flex items-center gap-3 text-xs text-slate-400 font-mono" dir="ltr">
             <span>
               Shot: <strong className="text-slate-200">{activeShot?.id}</strong> ({localShotTime.toFixed(2)}s /{' '}
               {shotDuration.toFixed(2)}s)
@@ -355,7 +355,7 @@ export const ViewportPlayer: React.FC<ViewportPlayerProps> = ({
               title="تفعيل التخليق الصوتي المباشر للمؤثرات Sound Synth"
             >
               {soundEnabled ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
-              {soundEnabled ? 'المؤثرات الصوتية: مفعّلة' : 'المؤثرات الصوتية: معطّلة'}
+              <span>{soundEnabled ? 'صوت SFX: مفعّل' : 'صوت SFX: معطّل'}</span>
             </button>
           </div>
         </div>

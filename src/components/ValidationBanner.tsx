@@ -14,29 +14,29 @@ export const ValidationBanner: React.FC<ValidationBannerProps> = ({
   const { valid, errors, warnings, stats } = validation;
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+    <div className="bg-slate-900 border border-slate-800 rounded-xl p-3 sm:p-4 max-w-full overflow-hidden">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4">
         {/* مؤشر الحالة */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-start sm:items-center gap-2.5 sm:gap-3 min-w-0">
           {valid ? (
-            <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0">
-              <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
+              <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
             </div>
           ) : (
-            <div className="w-9 h-9 rounded-lg bg-rose-500/10 border border-rose-500/30 flex items-center justify-center shrink-0">
-              <AlertCircle className="w-5 h-5 text-rose-400" />
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-rose-500/10 border border-rose-500/30 flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
+              <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-rose-400" />
             </div>
           )}
-          <div>
-            <div className="flex items-center gap-2">
-              <h3 className="font-semibold text-slate-100 text-sm">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+              <h3 className="font-semibold text-slate-100 text-xs sm:text-sm">
                 {valid ? 'تسلسل اللقطات متوافق تماماً مع الثوابت الرياضية (100% Contiguous)' : 'تنبيه: تم اكتشاف أخطاء في تتابع التوقيت'}
               </h3>
-              <span className="text-xs text-slate-400 font-mono" dir="ltr">
+              <span className="text-[11px] text-slate-400 font-mono" dir="ltr">
                 {stats.totalShots} shots · {stats.duration.toFixed(2)}s
               </span>
             </div>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5 leading-relaxed">
               {valid
                 ? 'جميع اللقطات متلاصقة حتمياً بدون أي فجوات (نهاية كل لقطة = بداية التالية)، ومتطابقة مع مسار الصوت.'
                 : `يوجد ${errors.length} خطأ في تسلسل التوقيت يجب معالجته لمنع حدوث إطارات مفقودة أو ارتباك في الرندر.`}
@@ -45,20 +45,20 @@ export const ValidationBanner: React.FC<ValidationBannerProps> = ({
         </div>
 
         {/* الإحصائيات وزر الإصلاح التلقائي */}
-        <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
-          <div className="hidden sm:flex items-center gap-3 text-xs text-slate-400">
-            <span className="flex items-center gap-1 font-mono" dir="ltr">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-4 w-full md:w-auto justify-between md:justify-end pt-1 sm:pt-0 border-t md:border-t-0 border-slate-800/80">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-slate-400">
+            <span className="flex items-center gap-1 font-mono text-[11px]" dir="ltr">
               <Clock className="w-3.5 h-3.5 text-amber-400" /> {stats.medianLength}s وسيط
             </span>
             <span aria-hidden="true" className="text-slate-600">·</span>
-            <span className="flex items-center gap-1 font-mono" dir="ltr">
+            <span className="flex items-center gap-1 font-mono text-[11px]" dir="ltr">
               <Volume2 className="w-3.5 h-3.5 text-cyan-400" /> {stats.sfxCount} مؤثراً SFX
             </span>
             {stats.has3d && (
               <>
                 <span aria-hidden="true" className="text-slate-600">·</span>
-                <span className="flex items-center gap-1 font-mono text-purple-300">
-                  <Box className="w-3.5 h-3.5" /> مدار 3D Orbit
+                <span className="flex items-center gap-1 font-mono text-[11px] text-purple-300">
+                  <Box className="w-3.5 h-3.5" /> مدار 3D
                 </span>
               </>
             )}
@@ -67,7 +67,7 @@ export const ValidationBanner: React.FC<ValidationBannerProps> = ({
           {!valid && (
             <button
               onClick={onAutoAlign}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold text-xs rounded-lg transition-colors shadow-sm shrink-0"
+              className="flex items-center justify-center gap-1.5 px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold text-xs rounded-lg transition-colors shadow-sm shrink-0 w-full sm:w-auto"
               title="إصلاح التلاصق الزمني لكل اللقطات تلقائياً"
             >
               <Wand2 className="w-3.5 h-3.5" />

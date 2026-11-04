@@ -38,16 +38,16 @@ export const TimelineTrack: React.FC<TimelineTrackProps> = ({
   const playheadPercent = Math.min(100, (currentGlobalTime / (totalDuration || 1)) * 100);
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col gap-3">
+    <div className="bg-slate-900 border border-slate-800 rounded-xl p-3 sm:p-4 flex flex-col gap-3 max-w-full overflow-hidden">
       {/* Timeline Controls Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <h3 className="text-sm font-semibold text-slate-100">الخط الزمني المتلاصق للمشاهد</h3>
           <span className="text-xs text-slate-400 font-mono" dir="ltr">
             ({shots.length} shots · {totalDuration.toFixed(2)}s)
           </span>
         </div>
-        <div className="flex items-center gap-3 text-xs text-slate-400">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-slate-400">
           <span className="flex items-center gap-1">
             <span className="inline-block w-2.5 h-2.5 rounded-sm bg-amber-500/80" />
             <span>نشطة</span>
@@ -64,7 +64,7 @@ export const TimelineTrack: React.FC<TimelineTrackProps> = ({
       </div>
 
       {/* Main Shots Horizontal Track */}
-      <div className="relative w-full bg-slate-950 border border-slate-800 rounded-lg p-1.5 overflow-x-auto min-h-[90px] select-none">
+      <div className="relative w-full max-w-full bg-slate-950 border border-slate-800 rounded-lg p-1.5 overflow-x-auto min-h-[90px] select-none" dir="ltr">
         {/* Playhead Vertical Line */}
         <div
           className="absolute top-0 bottom-0 w-0.5 bg-amber-400 z-30 pointer-events-none shadow-[0_0_8px_rgba(251,191,36,0.8)]"
@@ -74,7 +74,7 @@ export const TimelineTrack: React.FC<TimelineTrackProps> = ({
         </div>
 
         {/* Shots Strip */}
-        <div className="flex w-full min-w-[720px] h-16 relative gap-0.5">
+        <div className="flex w-full min-w-[600px] sm:min-w-[720px] h-16 relative gap-0.5" dir="ltr">
           {shots.map((shot, idx) => {
             const shotDur = shot.end - shot.start;
             const widthPercent = (shotDur / (totalDuration || 1)) * 100;
@@ -158,12 +158,12 @@ export const TimelineTrack: React.FC<TimelineTrackProps> = ({
       </div>
 
       {/* Music Score Sections Lane */}
-      <div className="flex flex-col gap-1">
-        <div className="flex items-center justify-between text-xs text-slate-400">
+      <div className="flex flex-col gap-1.5 max-w-full">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs text-slate-400 gap-1">
           <span className="font-semibold text-slate-300">مسار الموسيقى التصويرية التخليقية (audio/music.py)</span>
           <span className="font-mono text-[11px]">مقاطع مزاجية بتلاشٍ متداخل (Cross-fade 2s)</span>
         </div>
-        <div className="flex w-full h-6 rounded bg-slate-950 border border-slate-800 overflow-hidden text-[10px] font-mono select-none" dir="ltr">
+        <div className="flex w-full min-w-0 h-6 rounded bg-slate-950 border border-slate-800 overflow-hidden text-[10px] font-mono select-none" dir="ltr">
           {music.map((sec, i) => {
             const secDur = sec.end - sec.start;
             const wPct = (secDur / (totalDuration || 1)) * 100;

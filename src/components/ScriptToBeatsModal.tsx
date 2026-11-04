@@ -109,24 +109,25 @@ export const ScriptToBeatsModal: React.FC<ScriptToBeatsModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl sm:rounded-2xl w-full max-w-2xl max-h-[94vh] sm:max-h-[90vh] shadow-2xl flex flex-col overflow-hidden my-auto">
         {/* Modal Header */}
-        <div className="px-6 py-4 border-b border-slate-800 flex items-center justify-between sticky top-0 bg-slate-900/95 backdrop-blur z-10">
-          <div className="flex items-center gap-2">
-            <Wand2 className="w-5 h-5 text-amber-400" />
-            <h2 className="text-base font-semibold text-slate-100">توليد اللقطات والنبضات من السيناريو (tools/beats.py)</h2>
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-800 flex items-center justify-between sticky top-0 bg-slate-900/95 backdrop-blur z-20">
+          <div className="flex items-center gap-2 min-w-0">
+            <Wand2 className="w-5 h-5 text-amber-400 shrink-0" />
+            <h2 className="text-sm sm:text-base font-semibold text-slate-100 truncate">توليد اللقطات والنبضات من السيناريو (tools/beats.py)</h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-800 rounded-lg transition-colors"
+            className="p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-800 rounded-lg transition-colors shrink-0"
+            title="إغلاق"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 space-y-4 text-xs text-slate-300">
+        <div className="p-3.5 sm:p-6 space-y-3.5 sm:space-y-4 text-xs text-slate-300 flex-1 overflow-y-auto overflow-x-hidden">
           <div>
             <label className="block text-slate-400 font-medium mb-1">عنوان المشروع</label>
             <input
@@ -145,7 +146,7 @@ export const ScriptToBeatsModal: React.FC<ScriptToBeatsModalProps> = ({
               الصق نص التعليق الصوتي. تقوم الأداة بتقسيم الجمل آلياً عند علامات الترقيم (. ! ؟ ...) إلى نبضات متلاصقة حتمياً بدون أي فراغات زمنية.
             </p>
             <textarea
-              rows={8}
+              rows={7}
               value={scriptText}
               onChange={(e) => setScriptText(e.target.value)}
               className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-slate-100 font-sans leading-relaxed focus:outline-none focus:border-amber-500 text-xs"
@@ -153,7 +154,7 @@ export const ScriptToBeatsModal: React.FC<ScriptToBeatsModalProps> = ({
           </div>
 
           {/* Beat Parameters */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
             <div>
               <label className="block text-slate-400 font-medium mb-1">طول النبضة المستهدف</label>
               <div className="flex items-center gap-1.5">
@@ -202,7 +203,7 @@ export const ScriptToBeatsModal: React.FC<ScriptToBeatsModalProps> = ({
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-4 border-t border-slate-800 flex items-center justify-end gap-3 sticky bottom-0 bg-slate-900/95 backdrop-blur">
+        <div className="px-4 sm:px-6 py-3 border-t border-slate-800 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-3 sticky bottom-0 bg-slate-900/95 backdrop-blur z-20">
           <button
             type="button"
             onClick={onClose}
@@ -213,7 +214,7 @@ export const ScriptToBeatsModal: React.FC<ScriptToBeatsModalProps> = ({
           <button
             type="button"
             onClick={handleGenerateBeats}
-            className="flex items-center gap-1.5 px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold rounded-lg text-xs transition-colors shadow-sm"
+            className="flex items-center justify-center gap-1.5 px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold rounded-lg text-xs transition-colors shadow-sm"
           >
             <Wand2 className="w-3.5 h-3.5" /> توليد shots.json المتلاصق
           </button>
@@ -222,3 +223,4 @@ export const ScriptToBeatsModal: React.FC<ScriptToBeatsModalProps> = ({
     </div>
   );
 };
+

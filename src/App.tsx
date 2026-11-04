@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import {
   StoryShotsConfig,
   Shot,
+  SFXCue,
   VisualStyleId,
   AspectRatio,
   ProjectConfig,
@@ -17,6 +18,7 @@ import { ViewportPlayer } from './components/ViewportPlayer';
 import { TimelineTrack } from './components/TimelineTrack';
 import { ValidationBanner } from './components/ValidationBanner';
 import { ShotEditorModal } from './components/ShotEditorModal';
+import { AddAudioModal } from './components/AddAudioModal';
 import { ScriptToBeatsModal } from './components/ScriptToBeatsModal';
 import { JsonCodeDrawer } from './components/JsonCodeDrawer';
 import { audioSynth } from './engine/audioSynth';
@@ -47,12 +49,31 @@ export default function App() {
   // Modals & Panels
   const [isScriptModalOpen, setIsScriptModalOpen] = useState(false);
   const [isCodeDrawerOpen, setIsCodeDrawerOpen] = useState(false);
+  const [isAddAudioModalOpen, setIsAddAudioModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'director' | 'bible' | 'sound' | 'styles'>('director');
 
   // Validate invariants on every state change
   const validationResult = useMemo(() => {
     return validateShots(shotsConfig);
   }, [shotsConfig]);
+
+  // Handle Adding an SFX Cue to a Shot
+  const handleAddSFXCue = (targetShotId: string, cue: SFXCue) => {
+    const updatedShots = shotsConfig.shots.map((s) => {
+      if (s.id === targetShotId) {
+        return {
+          ...s,
+          sfx: [...(s.sfx || []), cue],
+        };
+      }
+      return s;
+    });
+    setShotsConfig({
+      ...shotsConfig,
+      shots: updatedShots,
+    });
+    setSelectedShotId(targetShotId);
+  };
 
   // Handle Shot Updates
   const handleSaveShot = (updatedShot: Shot) => {
@@ -143,23 +164,23 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans w-full max-w-full overflow-x-hidden">
       {/* Top Bar Contract: Zone 1 (Brand) - Zone 2 (Nav Links) - Zone 3 (1 Primary Action) */}
-      <header className="flex items-center justify-between gap-8 px-6 py-3.5 border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-40">
+      <header className="flex items-center justify-between gap-3 px-3 sm:px-6 py-2.5 sm:py-3.5 border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-40">
         {/* Zone 1: Brand wordmark */}
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center text-slate-950 shadow-md">
             <Film className="w-4 h-4" />
           </div>
           <div className="flex flex-col">
-            <span className="text-sm font-bold tracking-tight text-slate-100 whitespace-nowrap">
+            <span className="text-xs sm:text-sm font-bold tracking-tight text-slate-100 whitespace-nowrap">
               aiTrends 2D Studio
             </span>
-            <span className="text-[10px] text-amber-400 font-medium">مخرج المشاهد والخط الزمني</span>
+            <span className="text-[10px] text-amber-400 font-medium hidden xs:inline">مخرج المشاهد والخط الزمني</span>
           </div>
         </div>
 
-        {/* Zone 2: Navigation Links (single-line, concise) */}
+        {/* Zone 2: Navigation Links for Desktop */}
         <nav className="hidden md:flex items-center gap-6 text-xs font-medium text-slate-400">
           <button
             onClick={() => setActiveTab('director')}
@@ -196,23 +217,67 @@ export default function App() {
         </nav>
 
         {/* Zone 3: 1 Primary Action */}
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={() => setIsCodeDrawerOpen(true)}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold text-xs rounded-lg transition-colors shadow-sm whitespace-nowrap"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold text-xs rounded-lg transition-colors shadow-sm whitespace-nowrap"
           >
             <Code2 className="w-3.5 h-3.5" />
-            تصدير shots.json
+            <span className="hidden xs:inline">تصدير</span> shots.json
           </button>
         </div>
       </header>
 
+      {/* Mobile Responsive Navigation Bar (Allows mobile users to easily switch tabs) */}
+      <nav className="grid grid-cols-2 xs:grid-cols-4 gap-1.5 p-2 border-b border-slate-800/80 bg-slate-950/90 text-xs font-medium md:hidden max-w-full">
+        <button
+          onClick={() => setActiveTab('director')}
+          className={`px-2 py-1.5 rounded-lg text-center truncate transition-colors ${
+            activeTab === 'director'
+              ? 'bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/30'
+              : 'text-slate-400 hover:text-slate-200 bg-slate-900/50'
+          }`}
+        >
+          المخرج والخط الزمني
+        </button>
+        <button
+          onClick={() => setActiveTab('bible')}
+          className={`px-2 py-1.5 rounded-lg text-center truncate transition-colors ${
+            activeTab === 'bible'
+              ? 'bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/30'
+              : 'text-slate-400 hover:text-slate-200 bg-slate-900/50'
+          }`}
+        >
+          دليل القصة
+        </button>
+        <button
+          onClick={() => setActiveTab('sound')}
+          className={`px-2 py-1.5 rounded-lg text-center truncate transition-colors ${
+            activeTab === 'sound'
+              ? 'bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/30'
+              : 'text-slate-400 hover:text-slate-200 bg-slate-900/50'
+          }`}
+        >
+          أصوات SFX
+        </button>
+        <button
+          onClick={() => setActiveTab('styles')}
+          className={`px-2 py-1.5 rounded-lg text-center truncate transition-colors ${
+            activeTab === 'styles'
+              ? 'bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/30'
+              : 'text-slate-400 hover:text-slate-200 bg-slate-900/50'
+          }`}
+        >
+          الأنماط البصرية
+        </button>
+      </nav>
+
       {/* Main Container */}
-      <main className="flex-1 max-w-[1440px] w-full mx-auto p-4 md:p-6 space-y-5">
+      <main className="flex-1 max-w-[1440px] w-full mx-auto p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-5 max-w-full overflow-x-hidden">
         {/* Sub-header Context Bar with Project Switcher & Tools */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-slate-900/60 p-3 rounded-xl border border-slate-800/80">
-          <div className="flex items-center gap-3">
-            <span className="text-xs text-slate-400 font-medium">المشروع الحالي:</span>
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-3 bg-slate-900/60 p-2.5 sm:p-3 rounded-xl border border-slate-800/80">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="text-xs text-slate-400 font-medium shrink-0">المشروع:</span>
             <select
               value={shotsConfig.title}
               onChange={(e) => {
@@ -223,7 +288,7 @@ export default function App() {
                   setSelectedShotId('s001');
                 }
               }}
-              className="bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-lg px-2.5 py-1 font-semibold focus:outline-none focus:border-amber-500"
+              className="bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-lg px-2.5 py-1.5 font-semibold focus:outline-none focus:border-amber-500 flex-1 sm:flex-none min-w-0 truncate"
             >
               <option value="What If Your Reaction Time Was 10x Faster?">
                 سرعة رد الفعل (14 لقطة - المشروع المرجعي)
@@ -234,7 +299,16 @@ export default function App() {
             </select>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            {/* زر إضافة مقطع صوتي مخصص يفتح نافذة إضافة المقطع الصوتي */}
+            <button
+              onClick={() => setIsAddAudioModalOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-cyan-950 to-cyan-900/80 hover:from-cyan-900 hover:to-cyan-800 text-cyan-300 rounded-lg text-xs font-semibold transition-all border border-cyan-500/40 shadow-sm"
+              title="فتح نافذة إضافة مقطع صوتي إلى المشهد"
+            >
+              <Volume2 className="w-3.5 h-3.5 text-cyan-400" />
+              <span>إضافة مقطع صوتي</span>
+            </button>
             <button
               onClick={() => setIsScriptModalOpen(true)}
               className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold transition-colors border border-slate-700/50"
@@ -257,7 +331,7 @@ export default function App() {
 
         {/* Tab 1: Director & Visual Timeline */}
         {activeTab === 'director' && (
-          <div className="space-y-5">
+          <div className="space-y-4 sm:space-y-5 max-w-full">
             {/* Viewport Canvas Player */}
             <ViewportPlayer
               shots={shotsConfig.shots}
@@ -286,18 +360,18 @@ export default function App() {
             />
 
             {/* Quick Shot List Table with Exact Contiguity Invariant */}
-            <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 overflow-hidden">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold text-slate-100 text-sm">
+            <div className="bg-slate-900 border border-slate-800 rounded-xl p-3 sm:p-4 max-w-full overflow-hidden">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-3">
+                <h3 className="font-semibold text-slate-100 text-xs sm:text-sm">
                   جدول اللقطات ومصفوفة الثوابت الرياضية (story/shots.json)
                 </h3>
-                <span className="text-xs text-slate-400 font-mono" dir="ltr">
+                <span className="text-[11px] text-slate-400 font-mono" dir="ltr">
                   قاعدة التلاصق: end[i] = start[i+1]
                 </span>
               </div>
 
-              <div className="overflow-x-auto">
-                <table className="w-full text-right text-xs font-mono">
+              <div className="overflow-x-auto max-w-full">
+                <table className="w-full text-right text-xs font-mono min-w-[620px]">
                   <thead>
                     <tr className="border-b border-slate-800 text-slate-400 text-[11px]">
                       <th className="py-2 px-3 text-right">المعرّف</th>
@@ -625,6 +699,15 @@ export default function App() {
           onDelete={handleDeleteShot}
         />
       )}
+
+      {/* Dedicated Add Audio Cue Modal */}
+      <AddAudioModal
+        isOpen={isAddAudioModalOpen}
+        onClose={() => setIsAddAudioModalOpen(false)}
+        shots={shotsConfig.shots}
+        initialShotId={selectedShotId}
+        onConfirm={handleAddSFXCue}
+      />
 
       {/* Script to Beats Modal */}
       <ScriptToBeatsModal
